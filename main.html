@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Tech Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h1 {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Page Content */
+        .page {
+            display: none;
+            min-height: calc(100vh - 200px);
+            padding: 3rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-full:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Portfolio Display */
+        .portfolio-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-section {
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .project-item, .skill-item {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .edit-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.7rem 2rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .auth-container {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <h1>B.Tech Portfolio</h1>
+            <ul id="navMenu">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li id="portfolioNav" class="hidden"><a href="#" onclick="showPage('portfolio')">My Portfolio</a></li>
+            </ul>
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn btn-primary" onclick="showPage('login')">Login</button>
+                <button class="btn btn-secondary" onclick="showPage('signup')">Sign Up</button>
+            </div>
+            <div class="auth-buttons hidden" id="loggedInButtons">
+                <span id="userName" style="margin-right: 1rem;"></span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h2>Welcome to B.Tech Portfolio</h2>
+                <p>Showcase Your Skills, Projects, and Achievements</p>
+                <button class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.2rem;" onclick="showPage('signup')">Get Started</button>
+            </div>
+            <div class="portfolio-card">
+                <h3>Create Your Professional Portfolio</h3>
+                <p>Build a stunning portfolio to showcase your technical skills, academic projects, internships, and achievements. Stand out to recruiters and showcase your journey as a B.Tech student.</p>
+                <ul style="margin-top: 1rem; padding-left: 2rem;">
+                    <li>Easy to create and manage</li>
+                    <li>Professional templates</li>
+                    <li>Highlight projects and skills</li>
+                    <li>Share with recruiters</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sign Up Page -->
+        <div id="signup" class="page">
+            <div class="auth-container">
+                <h2>Create Your Account</h2>
+                <div id="signupMessage"></div>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signupName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="signupEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <select id="signupBranch" required>
+                            <option value="">Select Branch</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Electrical">Electrical</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <select id="signupYear" required>
+                            <option value="">Select Year</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-full">Create Account</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Already have an account? <a href="#" onclick="showPage('login')" style="color: #667eea;">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="auth-container">
+                <h2>Login to Your Account</h2>
+                <div id="loginMessage"></div>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-full">Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Don't have an account? <a href="#" onclick="showPage('signup')" style="color: #667eea;">Sign Up</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Portfolio Page -->
+        <div id="portfolio" class="page">
+            <div id="portfolioView">
+                <div class="portfolio-header">
+                    <h2 id="portfolioName">Your Name</h2>
+                    <p id="portfolioBranch"></p>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-section">
+                        <h3>About Me</h3>
+                        <p id="displayAbout">Add your introduction here...</p>
+                    </div>
+                    <div class="portfolio-section">
+                        <h3>Education</h3>
+                        <p id="displayEducation">Add your educational details...</p>
+                    </div>
+                    <div class="portfolio-section">
+                        <h3>Skills</h3>
+                        <div id="displaySkills" class="skills-grid">Add your skills...</div>
+                    </div>
+                    <div class="portfolio-section">
+                        <h3>Projects</h3>
+                        <div id="displayProjects">Add your projects...</div>
+                    </div>
+                    <div class="portfolio-section">
+                        <h3>Contact</h3>
+                        <p id="displayContact">Add your contact information...</p>
+                    </div>
+                    <button class="btn btn-full" onclick="toggleEdit()">Edit Portfolio</button>
+                </div>
+            </div>
+
+            <div id="portfolioEdit" class="hidden">
+                <div class="auth-container" style="max-width: 800px;">
+                    <h2>Edit Your Portfolio</h2>
+                    <div id="editMessage"></div>
+                    <form onsubmit="savePortfolio(event)">
+                        <div class="form-group">
+                            <label>About Me</label>
+                            <textarea id="editAbout"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Education</label>
+                            <textarea id="editEducation"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Skills (comma separated)</label>
+                            <input type="text" id="editSkills" placeholder="Python, Java, HTML, CSS, JavaScript">
+                        </div>
+                        <div class="form-group">
+                            <label>Projects</label>
+                            <textarea id="editProjects" placeholder="List your projects with descriptions"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Information</label>
+                            <textarea id="editContact" placeholder="Email, Phone, LinkedIn, GitHub"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-full">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" onclick="toggleEdit()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 B.Tech Portfolio. Built for aspiring engineers.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentUser = null;
+        let users = {};
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function showMessage(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = `<div class="message ${type}">${message}</div>`;
+            setTimeout(() => el.innerHTML = '', 3000);
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const branch = document.getElementById('signupBranch').value;
+            const year = document.getElementById('signupYear').value;
+
+            if (users[email]) {
+                showMessage('signupMessage', 'Email already registered!', 'error');
+                return;
+            }
+
+            users[email] = {
+                name, password, branch, year,
+                portfolio: {
+                    about: '', education: '', skills: '', projects: '', contact: ''
+                }
+            };
+
+            showMessage('signupMessage', 'Account created successfully!', 'success');
+            setTimeout(() => showPage('login'), 1500);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!users[email] || users[email].password !== password) {
+                showMessage('loginMessage', 'Invalid email or password!', 'error');
+                return;
+            }
+
+            currentUser = email;
+            document.getElementById('authButtons').classList.add('hidden');
+            document.getElementById('loggedInButtons').classList.remove('hidden');
+            document.getElementById('userName').textContent = users[email].name;
+            document.getElementById('portfolioNav').classList.remove('hidden');
+            
+            loadPortfolio();
+            showPage('portfolio');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('authButtons').classList.remove('hidden');
+            document.getElementById('loggedInButtons').classList.add('hidden');
+            document.getElementById('portfolioNav').classList.add('hidden');
+            showPage('home');
+        }
+
+        function loadPortfolio() {
+            if (!currentUser) return;
+            
+            const user = users[currentUser];
+            const p = user.portfolio;
+
+            document.getElementById('portfolioName').textContent = user.name;
+            document.getElementById('portfolioBranch').textContent = `${user.branch} - ${user.year}`;
+            
+            document.getElementById('displayAbout').textContent = p.about || 'Add your introduction here...';
+            document.getElementById('displayEducation').textContent = p.education || 'Add your educational details...';
+            document.getElementById('displayContact').textContent = p.contact || 'Add your contact information...';
+            
+            if (p.skills) {
+                const skillsArr = p.skills.split(',').map(s => s.trim()).filter(s => s);
+                document.getElementById('displaySkills').innerHTML = skillsArr.length ? 
+                    skillsArr.map(s => `<div class="skill-item">${s}</div>`).join('') :
+                    'Add your skills...';
+            } else {
+                document.getElementById('displaySkills').innerHTML = 'Add your skills...';
+            }
+            
+            if (p.projects) {
+                const projectsArr = p.projects.split('\n').filter(s => s.trim());
+                document.getElementById('displayProjects').innerHTML = projectsArr.length ?
+                    projectsArr.map(s => `<div class="project-item">${s}</div>`).join('') :
+                    'Add your projects...';
+            } else {
+                document.getElementById('displayProjects').innerHTML = 'Add your projects...';
+            }
+        }
+
+        function toggleEdit() {
+            const view = document.getElementById('portfolioView');
+            const edit = document.getElementById('portfolioEdit');
+            
+            if (view.classList.contains('hidden')) {
+                view.classList.remove('hidden');
+                edit.classList.add('hidden');
+                loadPortfolio();
+            } else {
+                const p = users[currentUser].portfolio;
+                document.getElementById('editAbout').value = p.about;
+                document.getElementById('editEducation').value = p.education;
+                document.getElementById('editSkills').value = p.skills;
+                document.getElementById('editProjects').value = p.projects;
+                document.getElementById('editContact').value = p.contact;
+                
+                view.classList.add('hidden');
+                edit.classList.remove('hidden');
+            }
+        }
+
+        function savePortfolio(e) {
+            e.preventDefault();
+            
+            users[currentUser].portfolio = {
+                about: document.getElementById('editAbout').value,
+                education: document.getElementById('editEducation').value,
+                skills: document.getElementById('editSkills').value,
+                projects: document.getElementById('editProjects').value,
+                contact: document.getElementById('editContact').value
+            };
+
+            showMessage('editMessage', 'Portfolio saved successfully!', 'success');
+            setTimeout(() => toggleEdit(), 1500);
+        }
+    </script>
+</body>
+</html>
