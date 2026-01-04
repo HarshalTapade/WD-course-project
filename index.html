@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arjun Patel - Home</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    line-height:1.6;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+}
+
+/* ---------- BACKGROUND ---------- */
+.bg-animation{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+.floating-shape{
+    position:absolute;
+    width:200px;
+    height:200px;
+    background:white;
+    opacity:0.1;
+    border-radius:50%;
+    animation:float 20s infinite ease-in-out;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-40px)}
+}
+
+/* ---------- NAV ---------- */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(20px);
+    padding:.8rem 0;
+    z-index:1000;
+}
+nav ul{
+    list-style:none;
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+}
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:.6rem 1.8rem;
+    border-radius:30px;
+    font-weight:600;
+}
+nav a.active,
+nav a:hover{
+    background:rgba(255,255,255,0.25);
+}
+
+/* ---------- CONTAINER ---------- */
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:6rem 2rem 2rem;
+}
+
+/* ---------- HERO ---------- */
+.hero{
+    background:white;
+    border-radius:30px;
+    padding:3rem;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+}
+
+/* ---------- PROFILE IMAGE ---------- */
+.profile-container{
+    position:relative;
+    display:inline-block;
+    margin-bottom:2rem;
+}
+.profile-img{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    object-fit:cover;
+    border:6px solid transparent;
+    background:
+        linear-gradient(white,white) padding-box,
+        linear-gradient(135deg,#667eea,#764ba2) border-box;
+}
+.edit-img-btn{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 15px rgba(102,126,234,.5);
+    transition:all .3s;
+}
+
+body.edit-mode .edit-img-btn{
+    display:flex;
+}
+
+.edit-img-btn:hover{
+    transform:scale(1.1);
+}
+
+/* ---------- TEXT ---------- */
+h1{
+    font-size:3rem;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    cursor:pointer;
+    padding:.5rem;
+    border-radius:10px;
+    transition:all .3s;
+}
+
+body.edit-mode h1:hover{
+    background-color:rgba(102,126,234,0.05);
+}
+
+h2{
+    color:#666;
+    margin-bottom:1rem;
+    cursor:pointer;
+    padding:.5rem;
+    border-radius:10px;
+    transition:all .3s;
+}
+
+body.edit-mode h2:hover{
+    background-color:rgba(102,126,234,0.05);
+}
+
+#bioText{
+    cursor:pointer;
+    padding:1rem;
+    border-radius:10px;
+    transition:all .3s;
+}
+
+body.edit-mode #bioText:hover{
+    background-color:rgba(102,126,234,0.05);
+}
+
+/* ---------- EDIT INPUTS ---------- */
+.edit-input,
+.edit-input-degree{
+    display:none;
+    width:80%;
+    max-width:500px;
+    margin:0 auto .5rem;
+    padding:.6rem;
+    text-align:center;
+    border:2px solid #667eea;
+    border-radius:10px;
+    font-size:1.2rem;
+}
+.edit-input.active,
+.edit-input-degree.active{
+    display:block;
+}
+
+.edit-textarea{
+    display:none;
+    width:80%;
+    max-width:600px;
+    margin:1rem auto;
+    padding:1rem;
+    border-radius:10px;
+    border:2px solid #667eea;
+    resize:vertical;
+}
+.edit-textarea.active{
+    display:block;
+}
+
+/* ---------- BUTTONS ---------- */
+.edit-btn{
+    display:none;
+    padding:.6rem 1.5rem;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:600;
+    margin:1rem 0;
+}
+
+body.edit-mode .edit-btn{
+    display:inline-block;
+}
+
+.save-btn{
+    display:none;
+    padding:.6rem 2rem;
+    background:linear-gradient(135deg,#28a745,#20c997);
+    color:white;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:600;
+    margin:1rem 0;
+}
+.save-btn.active{
+    display:inline-block;
+}
+
+/* ---------- LINKS ---------- */
+.social-links{
+    margin-top:2rem;
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+}
+.social-links a{
+    text-decoration:none;
+    color:white;
+    padding:.8rem 2rem;
+    border-radius:30px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+/* ---------- FLOATING BUTTON ---------- */
+.floating-edit-btn{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-size:24px;
+    box-shadow:0 8px 25px rgba(102,126,234,.6);
+    transition:all .3s;
+    z-index:999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.floating-edit-btn:hover{
+    transform:scale(1.1) translateY(-3px);
+    box-shadow:0 12px 35px rgba(102,126,234,.8);
+}
+
+.floating-edit-btn:active{
+    transform:scale(0.95);
+}
+
+/* ---------- EDIT MODE BANNER ---------- */
+.edit-mode-banner{
+    position:fixed;
+    top:80px;
+    left:50%;
+    transform:translateX(-50%);
+    background:linear-gradient(135deg,#28a745,#20c997);
+    color:white;
+    padding:.8rem 2rem;
+    border-radius:30px;
+    box-shadow:0 4px 20px rgba(40,167,69,.4);
+    z-index:998;
+    display:none;
+    font-weight:600;
+    animation:slideDown .3s ease;
+}
+
+.edit-mode-banner.active{
+    display:block;
+}
+
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateX(-50%) translateY(-20px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(-50%) translateY(0);
+    }
+}
+
+.loading{
+    color:#667eea;
+    font-weight:600;
+}
+
+#fileInput{display:none;}
+
+@media(max-width:768px){
+    .floating-edit-btn{
+        width:50px;
+        height:50px;
+        font-size:20px;
+        bottom:20px;
+        right:20px;
+    }
+    
+    .edit-mode-banner{
+        font-size:0.9rem;
+        padding:0.6rem 1.5rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-animation">
+    <div class="floating-shape" style="top:10%;left:10%"></div>
+    <div class="floating-shape" style="bottom:15%;right:15%"></div>
+</div>
+
+<nav>
+<ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+</ul>
+</nav>
+
+<div class="edit-mode-banner" id="editModeBanner">
+    ✏️ Edit Mode Active - Click on any text to edit
+</div>
+
+<button class="floating-edit-btn" id="floatingEditBtn" title="Toggle Edit Mode">✏️</button>
+
+<div class="container">
+<div class="hero">
+
+    <div class="profile-container">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+             class="profile-img" id="profileImg">
+        <button class="edit-img-btn" id="editImgBtn">✏️</button>
+        <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <h1 id="nameText">Arjun Patel</h1>
+    <input id="nameInput" class="edit-input">
+
+    <h2 id="degreeText">B.Tech in Computer Science Engineering</h2>
+    <input id="degreeInput" class="edit-input-degree">
+
+    <button class="edit-btn" id="editBtn">✏️ Edit Bio</button>
+
+    <p id="bioText">
+        Passionate software developer and problem solver with expertise in
+        full-stack development, machine learning, and IoT systems.
+    </p>
+
+    <textarea id="bioInput" class="edit-textarea"></textarea>
+
+    <button class="save-btn" id="saveBtn">💾 Save Changes</button>
+
+    <div class="social-links">
+        <a href="contact.html">Get In Touch</a>
+        <a href="projects.html">View Projects</a>
+    </div>
+
+</div>
+</div>
+
+<script>
+let editMode = false;
+
+const floatingBtn = document.getElementById("floatingEditBtn");
+const banner = document.getElementById("editModeBanner");
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
+
+const nameText = document.getElementById("nameText");
+const degreeText = document.getElementById("degreeText");
+const bioText = document.getElementById("bioText");
+
+const nameInput = document.getElementById("nameInput");
+const degreeInput = document.getElementById("degreeInput");
+const bioInput = document.getElementById("bioInput");
+
+const editImgBtn = document.getElementById("editImgBtn");
+const fileInput = document.getElementById("fileInput");
+const profileImg = document.getElementById("profileImg");
+
+// Load shared data
+async function loadSharedData() {
+    try {
+        const savedImage = await window.storage.get('shared-profile-image', true);
+        const savedName = await window.storage.get('shared-profile-name', true);
+        const savedDegree = await window.storage.get('shared-profile-degree', true);
+        const savedBio = await window.storage.get('shared-profile-bio', true);
+
+        if(savedImage) profileImg.src = savedImage.value;
+        if(savedName) nameText.textContent = savedName.value;
+        if(savedDegree) degreeText.textContent = savedDegree.value;
+        if(savedBio) bioText.textContent = savedBio.value;
+    } catch (error) {
+        console.log('Loading default data');
+    }
+}
+
+// Save shared data
+async function saveSharedData(key, value) {
+    try {
+        await window.storage.set(key, value, true);
+    } catch (error) {
+        console.error('Error saving:', error);
+        alert('Error saving changes. Please try again.');
+    }
+}
+
+// Load data on page load
+window.addEventListener('DOMContentLoaded', () => {
+    loadSharedData();
+});
+
+// Toggle edit mode
+floatingBtn.onclick = () => {
+    editMode = !editMode;
+    
+    if(editMode){
+        document.body.classList.add('edit-mode');
+        banner.classList.add('active');
+        floatingBtn.textContent = '✅';
+        floatingBtn.title = 'Exit Edit Mode';
+    } else {
+        document.body.classList.remove('edit-mode');
+        banner.classList.remove('active');
+        floatingBtn.textContent = '✏️';
+        floatingBtn.title = 'Toggle Edit Mode';
+    }
+};
+
+// Edit image
+editImgBtn.onclick = () => {
+    if(!editMode){
+        alert('Please enable Edit Mode using the button at the bottom right corner');
+        return;
+    }
+    fileInput.click();
+};
+
+fileInput.onchange = async (e) => {
+    const file = e.target.files[0];
+    if(file){
+        if(file.size > 1000000) {
+            alert('Image must be less than 1MB');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = async () => {
+            profileImg.src = reader.result;
+            await saveSharedData('shared-profile-image', reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+// Click to edit name
+nameText.onclick = () => {
+    if(!editMode){
+        alert('Please enable Edit Mode using the button at the bottom right corner');
+        return;
+    }
+    nameInput.value = nameText.textContent;
+    nameText.style.display = 'none';
+    nameInput.classList.add('active');
+    nameInput.focus();
+};
+
+nameInput.onblur = async () => {
+    if(nameInput.value.trim() !== ''){
+        nameText.textContent = nameInput.value;
+        await saveSharedData('shared-profile-name', nameInput.value);
+    }
+    nameText.style.display = 'block';
+    nameInput.classList.remove('active');
+};
+
+nameInput.onkeypress = (e) => {
+    if(e.key === 'Enter') nameInput.blur();
+};
+
+// Click to edit degree
+degreeText.onclick = () => {
+    if(!editMode){
+        alert('Please enable Edit Mode using the button at the bottom right corner');
+        return;
+    }
+    degreeInput.value = degreeText.textContent;
+    degreeText.style.display = 'none';
+    degreeInput.classList.add('active');
+    degreeInput.focus();
+};
+
+degreeInput.onblur = async () => {
+    if(degreeInput.value.trim() !== ''){
+        degreeText.textContent = degreeInput.value;
+        await saveSharedData('shared-profile-degree', degreeInput.value);
+    }
+    degreeText.style.display = 'block';
+    degreeInput.classList.remove('active');
+};
+
+degreeInput.onkeypress = (e) => {
+    if(e.key === 'Enter') degreeInput.blur();
+};
+
+// Edit bio
+editBtn.onclick = () => {
+    bioInput.value = bioText.textContent;
+    bioText.style.display = 'none';
+    bioInput.classList.add('active');
+    editBtn.style.display = 'none';
+    saveBtn.classList.add('active');
+    bioInput.focus();
+};
+
+// Save bio
+saveBtn.onclick = async () => {
+    bioText.textContent = bioInput.value;
+    await saveSharedData('shared-profile-bio', bioInput.value);
+    bioText.style.display = 'block';
+    bioInput.classList.remove('active');
+    saveBtn.classList.remove('active');
+    editBtn.style.display = 'inline-block';
+};
+</script>
+
+</body>
+</html>

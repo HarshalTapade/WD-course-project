@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+            text-align: center;
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+        }
+        button {
+            padding: 8px 15px;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Login</h2>
+
+<form onsubmit="return validateForm();">
+    <label>Username</label><br>
+    <input type="text" id="username"><br>
+
+    <label>Password</label><br>
+    <input type="password" id="password"><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<div id="error"></div>
+
+<script>
+    function validateForm() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const error = document.getElementById("error");
+
+        // predefined credentials
+        const correctUser = "1251070855";
+        const correctPass = "01";
+
+        if (username === "" || password === "") {
+            error.innerHTML = "Please enter username and password";
+            return false;
+        }
+
+        if (username === correctUser && password === correctPass) {
+            alert("Login successful!");
+            return true;
+        } else {
+            error.innerHTML = "Enter correct credentials";
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>
